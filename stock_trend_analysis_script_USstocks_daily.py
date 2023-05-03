@@ -1,8 +1,6 @@
-#!/usr/bin/env python
-# coding: utf-8
-
 # 2023/4/29　関数名を大文字化、リストにしてfor文化、
 # 2023/4/30　パラメータを自動取得化
+# 2023/5/3  warningを非表示に
 
 # In[1]:
 
@@ -11,11 +9,10 @@ import yfinance as yf
 import pandas_datareader.data as pdr
 import datetime
 import pandas as pd
+import warnings
 from datetime import timedelta
 
-
-# In[2]:
-
+warnings.filterwarnings('ignore')
 
 def ETF_PRICE_DATA(ticker, SMA_short, SMA_long, EMA_short, EMA_long, signal):
     
@@ -46,45 +43,21 @@ def ETF_PRICE_DATA(ticker, SMA_short, SMA_long, EMA_short, EMA_long, signal):
     df['Date'] = df['Date'].astype(str)
 #    df['Date'] = df['Date'].apply(lambda a: datetime.datetime.strftime(a,"%Y-%m-%d %H:%M:%S"))
     
-    df.to_excel(f"{ticker}_Stock_Price_Data.xlsx", index = False)
+    df.to_excel(f"C:/Users/actic/OneDrive/10_株式投資/DataFrame/technical_chart_daily/{ticker}_Stock_Price_Data.xlsx", index = False)
         
-
-
-# In[34]:
-
 
 tickers = ['VHI', 'VHT', 'VTI', 'VFH', 'VDE', 'VDC', 'VCR']
 
-
-# In[38]:
-
-
+# パラメーターはバックテスト結果ファイルから取得
 params = []
 for ticker in tickers:
-    df_params = pd.read_excel(f"C:/Users/actic/OneDrive/10_株式投資/python_本番環境/株バックテスト/pycharm/{ticker}output.xlsx", sheet_name = 'Sheet3')
+    df_params = pd.read_excel(f"C:/Users/actic/OneDrive/10_株式投資/DataFrame/backtest_analysis_daily/{ticker}output.xlsx", sheet_name = 'Sheet3')
     list = df_params.iloc[0].tolist()
     params.append(tuple(list))
 params
 
 
-# In[40]:
-
-
-print(f'start:{datetime.datetime.now()}')
 for i, ticker in enumerate(tickers):
     p = params[i]
     ETF_PRICE_DATA(ticker, p[0], p[1], p[2], p[3], p[4])
-print(f'finish:{datetime.datetime.now()}')
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
 
