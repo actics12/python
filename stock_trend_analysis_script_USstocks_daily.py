@@ -12,6 +12,7 @@ import pandas as pd
 import warnings
 from datetime import timedelta
 
+
 warnings.filterwarnings('ignore')
 
 def ETF_PRICE_DATA(ticker, SMA_short, SMA_long, EMA_short, EMA_long, signal):
